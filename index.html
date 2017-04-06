@@ -1,0 +1,123 @@
+<html>
+<head>
+<title>WEBGL Con Three.js</title>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<script  src="js/Three.js"></script>
+
+<script type="text/javascript" src="js/THREEx.WindowResize.js"></script>
+<script type="text/javascript" src="js/THREEx.KeyboardState.js"></script>
+<script  src="js/three.min.js"></script>
+<script  src="js/OrbitControls.js"></script>
+
+<div id="render"></div>    
+
+ <style type="text/css">
+      body {
+        overflow:hidden;
+      }
+</style>
+</head>
+<body>
+
+
+<div id="informacion">
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="main.js"></script>
+<div id="sphere" value ="">
+<script type="text/javascript">
+/Autor : Lina Melo/
+console.log(value);
+var Render=new THREE.WebGLRenderer();
+Render.shadowMapEnabled = true;
+var Stage=new THREE.Scene();
+var Figure;
+var controls;
+var meshsphere;
+var width =window.innerWidth-50;
+var high=window.innerHeight-50;
+var angle = 45;    
+var aspect =width/high;
+var near=0.2;
+var away=100;
+var Camera=new THREE.PerspectiveCamera(angle,aspect,near,away);
+var keyboard=new THREEx.KeyboardState();
+THREEx.WindowResize(Render,Camera);
+
+
+
+
+function start(){
+       Render.setSize(800,600);
+       //Se agrega el render al documento html
+       document.getElementById('render').appendChild(Render.domElement);
+       //Acercamos la cámara en z es profundidad para ver el punto
+       Camera.position.z=100;
+       //agregando la cámara al escenario
+       Stage.add(Camera);
+       // agregamos todo el escenario y la cámara al render
+       controls=new THREE.OrbitControls(Camera,Render.domElement);
+}
+
+
+function animation(){
+    requestAnimationFrame(animation);
+    render_model();
+
+    time = 0.001; 
+    distance =100;
+    route = distance * time;
+    
+    obj_mov=meshsphere;
+                    
+    if(keyboard.pressed("up")){
+        obj_mov.position.z+=route;
+                        
+    }
+    if(keyboard.pressed("down")){
+        obj_mov.position.z-=route;
+    }
+    if(keyboard.pressed("left")){
+        obj_mov.position.x-=route;
+       
+    }
+    if(keyboard.pressed("right")){
+        obj_mov.position.x+=route;
+    }
+                    
+
+}
+
+function render_model(){
+    controls.update();
+  	Stage.rotation.z=Stage.rotation.z+0.02;
+    Render.render(Stage,Camera);
+}
+
+function load_sphere(){
+    
+    Material=new THREE.ParticleBasicMaterial({color:0XFF0000});
+    geometrySphere=new THREE.SphereGeometry(10, 100, 100);
+    meshsphere = new THREE.Mesh(geometrySphere,Material);
+    meshsphere.position.z=40;
+    meshsphere.position.y=5;
+    Stage.add(meshsphere);
+    
+}
+
+//-----------------------------FUNCIONS------------------------
+start();
+load_sphere();
+animation();
+
+</script>
+</div>
+
+    <canvas id="leccion1-canvas" style="border: none;" width="500" height="500"></canvas>
+    <script>window.jQuery || document.write('<script src="js/jquery-3.1.1.min.js"><\/script>')</script>
+    <script  src="js/glMatrix-0.9.5.min.js"></script>
+    <script  src="js/Three.js"></script>
+    <script  src="js/three.min.js"></script>
+    <script  src="js/OrbitControls.js"></script>
+</body>
